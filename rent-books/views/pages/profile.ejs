@@ -1,0 +1,13 @@
+<%- include('header'); %>
+<h2>Profile</h2>
+
+<div class="form">
+    <fieldset>
+        <legend>Enter email to get all rented books</legend>
+        <form action="/profileProcess" method="post">
+            <label>Email Address: <input type="email" name="email" placeholder="Enter email address" required></label> <br><br>
+            <input type="submit" value="Show all books">
+        </form>
+    </fieldset>
+</div>
+<%- include('footer'); %>

@@ -1,0 +1,18 @@
+<%- include('header'); %>
+<h2>Rent Book Data</h2>
+<div class="book-list">
+    <div class="book-item">
+        <img src="<%= coverImagSrc %>" class="book-cover-img">
+        <div class="book-content">
+            <h2 class="title"><%= bookTitle %></h2>
+            <p>Published date: <%= publishDate %> </p>
+            <p>Publisher: <%= publisher %> </p>
+            <p>Language: <%= language %> </p>
+            <p>Pages: <%= pages %> </p>
+            <hr />
+                <strong>Rented at <%- rent_completed_at %></strong>
+            <hr />
+        </div>
+    </div>
+</div>
+<%- include('footer'); %>

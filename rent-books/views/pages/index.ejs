@@ -1,0 +1,14 @@
+<%- include('header'); %>
+<h2>Search Books</h2>
+
+<div class="form">
+    <fieldset>
+        <legend>Enter book title to search books</legend>
+        <form action="/searchProcess" method="get">
+            <label>Email Address: <input type="email" name="email" placeholder="Enter email address" required></label> <br><br>
+            <label>Book Title: <input type="text" name="bookName" placeholder="Enter Book Name" required></label> <br> <br>
+            <input type="submit" value="Search Books">
+        </form>
+    </fieldset>
+</div>
+<%- include('footer'); %>
