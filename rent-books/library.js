@@ -1,4 +1,4 @@
-const readline = require("readline");
+// const readline = require("readline");
 const express = require("express");
 const path = require("path");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
@@ -40,20 +40,20 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 
 // config for get user inputs from console
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
 
 // get arguments in array when typing command node summerCampServer.js 3000
 // args -> ['summerCampServer.js', '3000']
-let args = process.argv.slice(2); // array slice to ['3000']
+// let args = process.argv.slice(2); // array slice to ['3000']
 
-// validate arguments, args[0] -> 3000
-if (args[0]) {
-  // args[0] has integer and assign to port variable if not it will use default value 4000
-  port = parseInt(args[0]);
-}
+// // validate arguments, args[0] -> 3000
+// if (args[0]) {
+//   // args[0] has integer and assign to port variable if not it will use default value 4000
+//   port = parseInt(args[0]);
+// }
 
 // home page
 app.get("/", (request, response) => {
@@ -253,21 +253,22 @@ app.post("/returnProcess", async (request, response) => {
 // start server
 app.listen(port, () => {
   console.log(`Web server started and running at http://localhost:${port}`);
+  // askQuestion();
 });
 
-function askQuestion() {
-  rl.question("Type stop to shutdown the server: ", function (input) {
-    // validate user inputs
-    if (input === "stop") {
-      rl.close();
-    } else {
-      console.log("Invalid command: " + input);
-      askQuestion();
-    }
-  });
-}
+// function askQuestion() {
+//   rl.question("Type stop to shutdown the server: ", function (input) {
+//     // validate user inputs
+//     if (input === "stop") {
+//       rl.close();
+//     } else {
+//       console.log("Invalid command: " + input);
+//       askQuestion();
+//     }
+//   });
+// }
 // shuttdown the server
-rl.on("close", function () {
-  console.log("Shutting down the server.");
-  process.exit(0);
-});
+// rl.on("close", function () {
+//   console.log("Shutting down the server.");
+//   process.exit(0);
+// });
