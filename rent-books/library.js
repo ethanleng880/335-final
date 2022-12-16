@@ -253,7 +253,6 @@ app.post("/returnProcess", async (request, response) => {
 // start server
 app.listen(port, () => {
   console.log(`Web server started and running at http://localhost:${port}`);
-  askQuestion();
 });
 
 function askQuestion() {
