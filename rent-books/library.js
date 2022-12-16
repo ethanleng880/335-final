@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-
+const fetch = require('node-fetch');
 require("dotenv").config({
   path: path.resolve(__dirname, ".env"),
 });
@@ -73,7 +73,7 @@ app.get("/searchProcess", async (request, response) => {
     // offset is start with
     // limit=10&offset=20
     const fetchResponse = await fetch(
-      "http://openlibrary.org/search.json?q=" + bookName + "&limit=10"
+      "https://openlibrary.org/search.json?q=" + bookName + "&limit=10"
     );
     const results = await fetchResponse.json();
     books = results.docs.forEach((book) => {
@@ -83,7 +83,7 @@ app.get("/searchProcess", async (request, response) => {
       let coverImagSrc = "/img/avatar_book-lg.png";
 
       if (book.ebook_access === "borrowable" && book.lending_edition_s) {
-        coverImagSrc = `http://covers.openlibrary.org/b/olid/${book.lending_edition_s}-M.jpg`;
+        coverImagSrc = `https://covers.openlibrary.org/b/olid/${book.lending_edition_s}-M.jpg`;
       }
       const publishDate = book.first_publish_year;
       const authorName = book.author_name ? book.author_name.join(", ") : "";
@@ -112,7 +112,7 @@ app.post("/rentProcess", async (request, response) => {
   const email = request.body.email;
   if (bookId) {
     const fetchResponse = await fetch(
-      `http://openlibrary.org/books/${bookId}.json`
+      `https://openlibrary.org/books/${bookId}.json`
     );
     const result = await fetchResponse.json();
     const book = {
@@ -129,7 +129,7 @@ app.post("/rentProcess", async (request, response) => {
 
     let coverImagSrc = "/img/avatar_book-lg.png";
 
-    coverImagSrc = `http://covers.openlibrary.org/b/olid/${bookId}-M.jpg`;
+    coverImagSrc = `https://covers.openlibrary.org/b/olid/${bookId}-M.jpg`;
     book.coverImagSrc = coverImagSrc;
     book.rent_completed_at = new Date();
 
