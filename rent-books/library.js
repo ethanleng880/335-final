@@ -10,7 +10,7 @@ require("dotenv").config({
 
 // express config
 const app = express();
-let port = 5000;
+let port = 4000;
 
 // db username password
 const userName = process.env.MONGO_DB_USERNAME;
@@ -181,35 +181,38 @@ app.post("/profileProcess", async (request, response) => {
         .db(databaseAndCollection.db)
         .collection(databaseAndCollection.user_collection)
         .findOne({ email: email });
-
-      const cursor = await client
-        .db(databaseAndCollection.db)
-        .collection(databaseAndCollection.rent_collection)
-        .find({ _userId: user._id });
-      const result = await cursor.toArray();
-      if (result) {
-        let bookResults = "";
-        result.forEach((book) => {
-          bookResults += `<div class="book-item">
-            <div><img src="${book.coverImagSrc}" class="book-cover-img"></div>
-            <div class="book-content">
-                <h2 class="title">${book.bookTitle}</h2>
-                <p>Published date: ${book.publishDate} </p>
-                <p>Publisher: ${book.publisher} </p>
-                <p>Language: ${book.language} </p>
-                <p>Pages: ${book.pages} </p>
-                <hr />
-                    <strong>Rented at ${book.rent_completed_at}</strong>
-                <hr />
-                <form action="/returnProcess" method="post">
-                  <input type="hidden" name="email" value="${email}">
-                  <input type="hidden" name="bookId" value="${book._id}">
-                  <input type="submit" class="more-details" value="Return this book">
-                </form>
-            </div>
-          </div>`;
-        });
-        response.render("pages/profileProcess", { email, bookResults });
+      if (user) {
+        const cursor = await client
+          .db(databaseAndCollection.db)
+          .collection(databaseAndCollection.rent_collection)
+          .find({ _userId: user._id });
+        const result = await cursor.toArray();
+        if (result) {
+          let bookResults = "";
+          result.forEach((book) => {
+            bookResults += `<div class="book-item">
+              <div><img src="${book.coverImagSrc}" class="book-cover-img"></div>
+              <div class="book-content">
+                  <h2 class="title">${book.bookTitle}</h2>
+                  <p>Published date: ${book.publishDate} </p>
+                  <p>Publisher: ${book.publisher} </p>
+                  <p>Language: ${book.language} </p>
+                  <p>Pages: ${book.pages} </p>
+                  <hr />
+                      <strong>Rented at ${book.rent_completed_at}</strong>
+                  <hr />
+                  <form action="/returnProcess" method="post">
+                    <input type="hidden" name="email" value="${email}">
+                    <input type="hidden" name="bookId" value="${book._id}">
+                    <input type="submit" class="more-details" value="Return this book">
+                  </form>
+              </div>
+            </div>`;
+          });
+          response.render("pages/profileProcess", { email, bookResults });
+        }
+      } else {
+        response.render("pages/userNotFound");
       }
     } catch (e) {
       console.log(e);
@@ -238,7 +241,7 @@ app.post("/returnProcess", async (request, response) => {
           .deleteOne({ _id: new ObjectId(bookId) });
 
         response.render("pages/bookReturned", { email, ...book });
-      }else{
+      } else {
         response.render("pages/bookNotFound");
       }
     } catch (e) {
