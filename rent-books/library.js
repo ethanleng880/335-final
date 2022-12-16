@@ -2,15 +2,14 @@ const readline = require("readline");
 const express = require("express");
 const path = require("path");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-const { response } = require("express");
 
 require("dotenv").config({
-  path: path.resolve(__dirname, "credentialsDontPost/.env"),
+  path: path.resolve(__dirname, ".env"),
 });
 
 // express config
 const app = express();
-let port = 4000;
+let port = process.env.PORT || 4000;
 
 // db username password
 const userName = process.env.MONGO_DB_USERNAME;
